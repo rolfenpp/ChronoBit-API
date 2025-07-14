@@ -20,4 +20,3 @@ TimeClaim API is an ASP.NET Core Web API built with .NET 8.0. It provides endpoi
 - Google Authentication (OAuth)
 - Swagger/OpenAPI
 
-## Project Structure
