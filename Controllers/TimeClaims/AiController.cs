@@ -26,7 +26,6 @@ namespace TimeClaimApi.Controllers.TimeClaims
             });
         }
 
-        // Analyze a user's time claims for patterns (e.g., most claimed project, total hours, etc.)
         [HttpGet("user-summary/{userId}")]
         public async Task<IActionResult> AnalyzeUserClaims(string userId)
         {

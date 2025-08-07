@@ -7,16 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 Console.WriteLine("🔍 Google Client ID: " + builder.Configuration["Authentication:Google:ClientId"]);
 
-// Add PostgreSQL and EF Core
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Add Authentication (Google)
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -27,7 +24,6 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
 });
 
-// Cookie config (optional)
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/account/login";
@@ -35,18 +31,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/account/accessdenied";
 });
 
-// Add Controllers + Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    // Optional: Add security to Swagger if you use JWTs in future
     options.SwaggerDoc("v1", new OpenApiInfo { Title = "TimeClaim API", Version = "v1" });
 });
 
 var app = builder.Build();
 
-// Dev-only Swagger
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -54,7 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseHsts(); // Only in production
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
